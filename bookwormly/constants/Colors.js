@@ -6,6 +6,7 @@ const COLORS = {
   textDark: "#1b361b",
   placeholderText: "#767676",
   background: "#e8f5e9",
+  // background: "#eee",
   cardBackground: "#f1f8f2",
   inputBackground: "#f4faf5",
   border: "#c8e6c9",

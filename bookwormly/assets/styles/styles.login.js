@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   illustrationImage: {
     width: width * 0.75,
     height: width * 0.75,
+    objectFit: "cover",
   },
   card: {
     backgroundColor: COLORS.cardBackground,
