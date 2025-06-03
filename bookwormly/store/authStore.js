@@ -19,8 +19,28 @@ const useAuthStore = create((set) => ({
           },
         }
       );
+      return response?.data;
+    } catch (error) {
+      console.error(error);
+      return error?.response?.data;
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 
-      console.log(response?.data);
+  signin: async (email, password) => {
+    set({ isLoading: true });
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/auth/signin",
+        { email, password },
+        {
+          headers: {
+            "X-Client-Type": "mobile",
+            // "Content-Type": "application/json", // 👈 optional, Axios will set this automatically
+          },
+        }
+      );
       return response?.data;
     } catch (error) {
       console.error(error);

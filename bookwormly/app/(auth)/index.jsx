@@ -14,14 +14,19 @@ import { Ionicons } from "@expo/vector-icons";
 import COLORS from "@/constants/Colors";
 import { TextInput } from "react-native-gesture-handler";
 import { Link } from "expo-router";
+import useAuthStore from "@/store/authStore";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = () => {};
+  const { isLoading, signin } = useAuthStore();
+
+  const handleLogin = async () => {
+    const responseData = await signin(email, password);
+    console.log("SIGIN RESPONSE", responseData);
+  };
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
