@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const useAuthStore = create((set) => ({
   user: null,
@@ -41,6 +42,10 @@ const useAuthStore = create((set) => ({
           },
         }
       );
+
+      console.log("RES DATA", response?.data);
+
+      await AsyncStorage.setItem("user", JSON.stringify(response?.data?.data));
       return response?.data;
     } catch (error) {
       console.error(error);
