@@ -3,25 +3,31 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
-  TextInput,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
 import styles from "@/assets/styles/styles.signup";
 import { Ionicons } from "@expo/vector-icons";
 import COLORS from "@/constants/Colors";
 import { Link } from "expo-router";
+import useAuthStore from "@/store/authStore";
+
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { user, isLoading, signup } = useAuthStore();
 
   //   handlers
-  const handleSignup = () => {};
+  const handleSignup = async () => {
+    const responseData = await signup(username, email, password);
+
+    console.log(responseData);
+  };
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -50,7 +56,7 @@ const Signup = () => {
                     style={styles.input}
                     placeholder="Juan De la Cruz"
                     placeholderTextColor={COLORS.placeholderText}
-                    value={email}
+                    value={username}
                     onChangeText={setUsername}
                     autoCapitalize="none"
                   />

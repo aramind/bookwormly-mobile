@@ -15,7 +15,6 @@ import COLORS from "@/constants/Colors";
 import { TextInput } from "react-native-gesture-handler";
 import { Link } from "expo-router";
 
-const imageURI = "@/assets/images/book.png";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,7 +32,7 @@ const Login = () => {
           <View style={styles.topIllustration}>
             <Image
               resizeMode="contain"
-              source={require(imageURI)}
+              source={require("@/assets/images/book.png")}
               style={styles.illustrationImage}
             />
           </View>
