@@ -6,7 +6,7 @@ const url = `https://bookwormly-api.onrender.com`;
 
 const useAuthStore = create((set) => ({
   user: null,
-  token: null,
+  refreshToken: null,
   isLoading: false,
 
   signup: async (username, email, password) => {
@@ -48,12 +48,32 @@ const useAuthStore = create((set) => ({
       console.log("RES DATA", response?.data);
 
       await AsyncStorage.setItem("user", JSON.stringify(response?.data?.data));
+      await AsyncStorage.setItem(
+        "refreshtoken",
+        JSON.stringify(response?.data?.data?.refreshToken)
+      );
+      await AsyncStorage.setItem("user", JSON.stringify(response?.data?.data));
+
       return response?.data;
     } catch (error) {
       console.error(error);
       return error?.response?.data;
     } finally {
       set({ isLoading: false });
+    }
+  },
+
+  checkAuth: async () => {
+    try {
+      const refreshToken = await AsyncStorage.getItem("refreshToken");
+      const userJson = await AsyncStorage.getItem("user");
+      const user = userJson ? JSON.parse(userJson) : null;
+
+      console.log("TOKEN", refreshToken);
+      console.log("USER", userJson);
+      set({ refreshToken, user });
+    } catch (error) {
+      console.log("AUTH CHECK FAILED", error);
     }
   },
 }));
