@@ -5,6 +5,7 @@ import {
   Platform,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
@@ -13,7 +14,10 @@ import { Ionicons } from "@expo/vector-icons";
 import COLORS from "@/constants/Colors";
 import { Link } from "expo-router";
 import useAuthStore from "@/store/authStore";
+import Constants from "expo-constants";
+const { API_URL } = Constants.expoConfig.extra;
 
+console.log(API_URL);
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -27,6 +31,12 @@ const Signup = () => {
     const responseData = await signup(username, email, password);
 
     console.log("RESPONSEDATA", responseData);
+    const title = responseData?.success ? "Success" : "Failed";
+    const message = responseData?.success
+      ? "Sign up successful"
+      : "Sign up failed. Try again later.";
+
+    Alert.alert(title, message);
   };
   return (
     <KeyboardAvoidingView

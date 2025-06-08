@@ -2,6 +2,8 @@ import { create } from "zustand";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+const url = `https://bookwormly-api.onrender.com`;
+
 const useAuthStore = create((set) => ({
   user: null,
   token: null,
@@ -11,7 +13,7 @@ const useAuthStore = create((set) => ({
     set({ isLoading: true });
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/signup",
+        `${url}/api/v1/auth/signup`,
         { username, email, password },
         {
           headers: {
@@ -33,7 +35,7 @@ const useAuthStore = create((set) => ({
     set({ isLoading: true });
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/signin",
+        `${url}/api/v1/auth/signin`,
         { email, password },
         {
           headers: {
