@@ -1,7 +1,15 @@
+import useAuthStore from "@/store/authStore";
 import { Link } from "expo-router";
+import { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
+  const { checkAuth } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
   return (
     <View styles={styles.container}>
       <Text>HOME</Text>

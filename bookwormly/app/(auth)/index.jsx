@@ -8,7 +8,7 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/assets/styles/styles.login";
 import { Ionicons } from "@expo/vector-icons";
 import COLORS from "@/constants/Colors";
@@ -21,12 +21,17 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const { isLoading, signin } = useAuthStore();
+  const { isLoading, signin, checkAuth, refreshToken, user } = useAuthStore();
 
   const handleLogin = async () => {
     const responseData = await signin(email, password);
     console.log("SIGIN RESPONSE", responseData);
   };
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -111,6 +116,10 @@ const Login = () => {
                     <Text style={styles.link}>Sign Up</Text>
                   </TouchableOpacity>
                 </Link>
+              </View>
+              <View>
+                <Text>{refreshToken}</Text>
+                <Text>{user?.username}</Text>
               </View>
             </View>
           </View>

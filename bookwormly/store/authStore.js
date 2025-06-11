@@ -47,12 +47,14 @@ const useAuthStore = create((set) => ({
 
       console.log("RES DATA", response?.data);
 
-      await AsyncStorage.setItem("user", JSON.stringify(response?.data?.data));
       await AsyncStorage.setItem(
-        "refreshtoken",
+        "user",
+        JSON.stringify(response?.data?.data?.userInfo)
+      );
+      await AsyncStorage.setItem(
+        "refreshToken",
         JSON.stringify(response?.data?.data?.refreshToken)
       );
-      await AsyncStorage.setItem("user", JSON.stringify(response?.data?.data));
 
       return response?.data;
     } catch (error) {
