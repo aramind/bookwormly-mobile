@@ -7,7 +7,7 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import styles from "@/assets/styles/styles.login";
+import styles from "@/assets/styles/styles.general";
 import { Ionicons } from "@expo/vector-icons";
 import COLORS from "@/constants/Colors";
 import { TextInput } from "react-native-gesture-handler";
