@@ -8,7 +8,7 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "@/assets/styles/styles.login";
 import { Ionicons } from "@expo/vector-icons";
 import COLORS from "@/constants/Colors";
@@ -21,16 +21,12 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const { isLoading, signin, checkAuth, refreshToken, user } = useAuthStore();
+  const { isLoading, signin, refreshToken, user } = useAuthStore();
 
   const handleLogin = async () => {
     const responseData = await signin(email, password);
     console.log("SIGIN RESPONSE", responseData);
   };
-
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
 
   return (
     <KeyboardAvoidingView
