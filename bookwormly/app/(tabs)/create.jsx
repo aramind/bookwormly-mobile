@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import styles from "@/assets/styles/styles.general";
 import { Ionicons } from "@expo/vector-icons";
@@ -156,6 +157,39 @@ const Create = () => {
               )}
             </TouchableOpacity>
           </View>
+          {/* CAPTION */}
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Caption</Text>
+            <TextInput
+              style={styles.textArea}
+              placeholder="Write your review or thoughts about this work"
+              placeholderTextColor={COLORS.placeholderText}
+              value={caption}
+              onChangeText={setCaption}
+              multiline
+            />
+          </View>
+
+          {/* SUBMIT BUTTON */}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleSubmit}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color={COLORS.white} />
+            ) : (
+              <>
+                <Ionicons
+                  name="cloud-upload-outline"
+                  size={20}
+                  color={COLORS.white}
+                  style={styles.buttonIcon}
+                />
+                <Text style={styles.buttonText}>Share</Text>
+              </>
+            )}
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
