@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import styles from "@/assets/styles/styles.general";
 import { Ionicons } from "@expo/vector-icons";
@@ -24,6 +25,27 @@ const Create = () => {
 
   const pickImage = async () => {};
   const handleSubmit = async () => {};
+
+  const renderRatingPicker = () => {
+    const stars = [];
+
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <TouchableOpacity
+          key={i}
+          onPress={() => setRating(i)}
+          style={styles.starButton}
+        >
+          <Ionicons
+            name={i <= rating ? "star" : "star-outline"}
+            size={32}
+            color={i <= rating ? "#f4b400" : COLORS.textSecondary}
+          />
+        </TouchableOpacity>
+      );
+    }
+    return <View style={styles.ratingContainer}>{stars}</View>;
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -59,6 +81,12 @@ const Create = () => {
                 />
               </View>
             </View>
+          </View>
+
+          {/* RATING */}
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Your Rating</Text>
+            {renderRatingPicker()}
           </View>
         </View>
       </ScrollView>
