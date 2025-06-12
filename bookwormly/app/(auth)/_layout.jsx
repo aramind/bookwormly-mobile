@@ -19,8 +19,6 @@ const AuthLayout = () => {
 
   console.log(segments);
   useEffect(() => {
-    if (!initialCheckDone || segments.length === 0) return;
-
     const inAuthScreen = segments[0] === "(auth)";
     const isSignedIn = user && refreshToken;
 
@@ -35,7 +33,6 @@ const AuthLayout = () => {
 
     return () => clearTimeout(timeout);
   }, [initialCheckDone, segments, refreshToken, user, router]);
-
   return <Stack screenOptions={{ headerShown: false }}></Stack>;
 };
 
