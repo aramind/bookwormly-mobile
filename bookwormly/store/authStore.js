@@ -44,6 +44,9 @@ const useAuthStore = create((set) => ({
         }
       );
 
+      const user = response?.data?.data?.userInfo;
+      const refreshToken = response?.data?.data?.refreshToken;
+
       console.log("RES DATA", response?.data);
 
       await AsyncStorage.setItem(
@@ -54,7 +57,8 @@ const useAuthStore = create((set) => ({
         "refreshToken",
         JSON.stringify(response?.data?.data?.refreshToken)
       );
-
+      // ✅ Set to Zustand store
+      set({ user, refreshToken });
       return response?.data;
     } catch (error) {
       console.error(error);
