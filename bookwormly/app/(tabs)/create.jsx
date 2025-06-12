@@ -15,6 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import COLORS from "@/constants/Colors";
 import { TextInput } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 
 const Create = () => {
   const [title, setTitle] = useState("");
@@ -50,8 +51,20 @@ const Create = () => {
         });
 
         if (!result.canceled) {
-          console.log(result);
           setImage(result.assets[0].uri);
+          // if base64 is provided, use it
+          if (result.assets[0].base64) {
+            setImageBase64(result.assets[0].base64);
+          } else {
+            // otherwise, convert to base64
+            const base64 = await FileSystem.readAsStringAsync(
+              result.assets[0].uri,
+              {
+                encoding: FileSystem.EncodingType.Base64,
+              }
+            );
+            setImageBase64(base64);
+          }
         }
       }
     } catch (error) {
