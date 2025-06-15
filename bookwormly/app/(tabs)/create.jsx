@@ -17,6 +17,10 @@ import COLORS from "@/constants/Colors";
 import { TextInput } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import useAuthStore from "@/store/authStore";
+import axios from "axios";
+import { API_URL } from "@/constants/api";
 
 const Create = () => {
   const [title, setTitle] = useState("");
@@ -26,6 +30,7 @@ const Create = () => {
   const [imageBase64, setImageBase64] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const { refreshToken } = useAuthStore();
   const router = useRouter();
 
   const pickImage = async () => {
@@ -47,7 +52,7 @@ const Create = () => {
           mediaTypes: "images",
           allowsEditing: true,
           aspect: [4, 3],
-          quality: 0.5, //lower the quality for smaller base64
+          quality: 0.3, //lower the quality for smaller base64
           base64: true,
         });
 
@@ -70,9 +75,64 @@ const Create = () => {
       }
     } catch (error) {
       console.error(error);
+      console.log(error);
     }
   };
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    if (!title || !caption || !rating) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      //  get file extension from URI or default to jpeg
+      const uriParts = image.split(".");
+      const fileType = uriParts[uriParts.length - 1];
+      const imageType = fileType
+        ? `image/${fileType.toLowerCase()}`
+        : "image/jpeg";
+
+      const imageDataUrl = `data:${imageType};base64,${imageBase64}`;
+
+      // console.log({
+      //   title,
+      //   caption,
+      //   rating: rating.toString(),
+      //   image: imageDataUrl,
+      // });
+      try {
+        const response = await axios.post(
+          `${API_URL}/api/v1/books`,
+          { title, caption, rating: rating.toString(), image: imageDataUrl },
+          {
+            headers: {
+              "X-Client-Type": "mobile",
+              Authorization: `Bearer ${refreshToken}`,
+              // "Content-Type": "application/json", // 👈 optional, Axios will set this automatically
+            },
+          }
+        );
+        console.log("RES", response);
+        if (response?.data?.success) {
+          Alert.alert("Success", "Your book recommendation has been posted!");
+          setTitle("");
+          setCaption("");
+          setRating(3);
+          setImage(null);
+          setImageBase64(null);
+          router.push("/");
+        }
+        return response?.data;
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const renderRatingPicker = () => {
     const stars = [];

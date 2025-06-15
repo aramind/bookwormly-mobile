@@ -3,34 +3,39 @@ import { Stack, useRouter, useSegments } from "expo-router";
 import useAuthStore from "@/store/authStore";
 
 const AuthLayout = () => {
-  const router = useRouter();
-  const segments = useSegments();
-  const { checkAuth, refreshToken, user } = useAuthStore();
+  // const router = useRouter();
+  // const segments = useSegments();
+  // const { checkAuth, refreshToken, user } = useAuthStore();
 
-  const [initialCheckDone, setInitialCheckDone] = useState(false);
+  // const [initialCheckDone, setInitialCheckDone] = useState(false);
 
-  useEffect(() => {
-    const verify = async () => {
-      await checkAuth(); // checks and sets `user` and `refreshToken`
-      setInitialCheckDone(true); // now we can safely navigate
-    };
-    verify();
-  }, [checkAuth]);
+  // useEffect(() => {
+  //   const verify = async () => {
+  //     await checkAuth(); // checks and sets `user` and `refreshToken`
+  //     setInitialCheckDone(true); // now we can safely navigate
+  //   };
+  //   verify();
+  // }, [checkAuth]);
 
-  console.log("SEGMENTS", segments);
+  // console.log(segments);
 
-  useEffect(() => {
-    if (!initialCheckDone || !segments) return;
-    const inAuthScreen = segments[0] === "(auth)";
-    const isSignedIn = user && refreshToken;
+  // useEffect(() => {
+  //   if (!initialCheckDone) return;
+  //   const inAuthScreen = segments[0] === "(auth)";
+  //   const isSignedIn = user && refreshToken;
 
-    if (!isSignedIn && !inAuthScreen) {
-      router.replace("/(auth)");
-    } else if (isSignedIn && inAuthScreen) {
-      router.replace("/(tabs)");
-    }
-  }, [initialCheckDone, segments, refreshToken, user, router]);
-  return <Stack screenOptions={{ headerShown: false }} />;
+  //   console.log("SEGMENTS", segments[0]);
+  //   const timeout = setTimeout(() => {
+  //     if (!isSignedIn && !inAuthScreen) {
+  //       router.replace("/(auth)");
+  //     } else if (isSignedIn && inAuthScreen) {
+  //       router.replace("/(tabs)");
+  //     }
+  //   }, 0);
+
+  //   return () => clearTimeout(timeout);
+  // }, [initialCheckDone, segments, refreshToken, user, router]);
+  return <Stack screenOptions={{ headerShown: false }}></Stack>;
 };
 
 export default AuthLayout;

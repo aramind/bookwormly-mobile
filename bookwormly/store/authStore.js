@@ -81,6 +81,12 @@ const useAuthStore = create((set) => ({
       console.log("AUTH CHECK FAILED", error);
     }
   },
+
+  logout: async () => {
+    await AsyncStorage.removeItem("refreshToken");
+    await AsyncStorage.removeItem("user");
+    set({ refreshToken: null, user: null });
+  },
 }));
 
 export default useAuthStore;
